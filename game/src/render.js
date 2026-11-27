@@ -439,7 +439,8 @@ export function createRenderer(canvas) {
     context.strokeStyle = PALETTE.text;
     context.lineWidth = 2;
     context.strokeRect(barX, barY, barW, 18);
-    text('WOODS', barX + barW / 2, barY + 22, 13, PALETTE.muted, 'center');
+    // Label sits below the bar (bar is 18 px tall starting at barY), never on top of it, at any bar width.
+    text('WOODS', barX + barW / 2, barY + 30, 13, PALETTE.muted, 'center');
     // Lives.
     const firstLife = FIELD.width - 24 - LIVES * (LIFE_SIZE + LIFE_GAP) + LIFE_GAP;
     text('Lives', firstLife - 50, 16, 30, PALETTE.text, 'right');
@@ -539,11 +540,11 @@ export function createRenderer(canvas) {
       drawPanel('Paused', PAUSED_LINES, 'Press P to resume');
     } else if (screen === SCREEN_CAUGHT) {
       CAUGHT_LINES[0] = `Caught after ${Math.floor(state.distance)} m.`;
-      CAUGHT_LINES[1] = bestLabel(state.distance > best ? state.distance : best);
+      CAUGHT_LINES[1] = bestLabel(Math.floor(state.distance > best ? state.distance : best)) + ' m';
       drawPanel('Caught for dinner', CAUGHT_LINES, 'Press Space or click to run again');
     } else if (screen === SCREEN_ESCAPED) {
       ESCAPED_LINES[0] = `Escaped to the woods after ${Math.floor(state.distance)} m!`;
-      ESCAPED_LINES[1] = bestLabel(state.distance > best ? state.distance : best);
+      ESCAPED_LINES[1] = bestLabel(Math.floor(state.distance > best ? state.distance : best)) + ' m';
       drawPanel('Free bird', ESCAPED_LINES, 'Press Space or click to run again');
     }
   }
