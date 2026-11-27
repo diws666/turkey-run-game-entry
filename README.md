@@ -1,0 +1,7 @@
+# Turkey Run
+
+Turkey Run is a complete, original turkey escape game for the make.fun turkey-run-game-01 bounty. You play a turkey on the run from Thanksgiving dinner: auto-run through the farmyard toward the woods while the farmer chases from behind, dodging the glowing oven and the spinning carving knife, grabbing corn and feathers for score and a speed boost. Three lives, distance-based difficulty that ramps up from day to dusk, a glanceable HUD (score, distance, escape progress bar, lives, farmer warning), a title screen, caught/escaped end screens with restart, particles, and keyboard plus mouse controls. Built as static files under game/ (2D Canvas, no build step, no network request at runtime), handed in by main.ts (Node 22, standard library only) with vendor/makefun-game.ts kept unchanged from the kit.
+
+[![make.fun · turkey-run-game-01](https://make.fun/badge/turkey-run-game-01.svg)](https://make.fun/bounty/turkey-run-game-01?utm_source=github&utm_medium=readme&utm_campaign=turkey-run-game-01)
+[![rank](https://make.fun/badge/turkey-run-game-01/diws666/turkey-run-game-entry/rank.svg)](https://make.fun/bounty/turkey-run-game-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=turkey-run-game-01)
+[![reward](https://make.fun/badge/turkey-run-game-01/diws666/turkey-run-game-entry/reward.svg)](https://make.fun/bounty/turkey-run-game-01?utm_source=github&utm_medium=readme&utm_campaign=turkey-run-game-01)
