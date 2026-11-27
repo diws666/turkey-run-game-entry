@@ -4,7 +4,7 @@
 // the barn, the fence, the oven and the knife scroll past. All art is drawn with
 // Canvas 2D primitives — an autumn Thanksgiving palette, no external assets.
 
-import { ESCAPE_DISTANCE, FIELD, FARMER, KNIFE, LIVES, OVEN, CORN, FEATHER, PLAYER, PALETTE, FONT } from './config.js';
+import { ESCAPE_DISTANCE, FIELD, FARMER, KNIFE, LIVES, OVEN, CORN, FEATHER, PARTICLE, PLAYER, PALETTE, FONT } from './config.js';
 import { KIND_CORN } from './world.js';
 
 export const SCREEN_TITLE = 'title';

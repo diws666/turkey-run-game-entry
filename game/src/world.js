@@ -31,6 +31,7 @@ export function createWorld(random) {
     height: PLAYER.height,
     lane: 0,
     onGround: true,
+    wasJumping: false,
     invulnerable: 0,
     boost: 0,
     facing: 1,
@@ -72,6 +73,7 @@ export function createWorld(random) {
     player.vy = 0;
     player.lane = 0;
     player.onGround = true;
+    player.wasJumping = false;
     player.invulnerable = 0;
     player.boost = 0;
     player.facing = 1;
@@ -183,12 +185,14 @@ export function createWorld(random) {
     player.lane = Math.min(130, Math.max(-130, player.lane));
     player.facing = dir !== 0 ? dir : player.facing;
 
-    if (input.jumping() && player.onGround && player.invulnerable === 0) {
+    const jumping = input.jumping();
+    if (jumping && player.onGround && player.invulnerable === 0) {
       player.vy = -PLAYER.jump;
       player.onGround = false;
       burst(player.x + player.width / 2, FIELD.groundY, PALETTE.particleDust, 6);
     }
-    if (!input.jumping()) player.vy = Math.min(player.vy, -PLAYER.jump * 0.5);
+    if (!jumping && player.wasJumping) player.vy = Math.min(player.vy, -PLAYER.jump * 0.5);
+    player.wasJumping = jumping;
     player.vy += PLAYER.gravity * dt;
     if (player.vy > PLAYER.maxFall) player.vy = PLAYER.maxFall;
     player.y += player.vy * dt;

@@ -9,10 +9,26 @@ import { EVENT_OVER, EVENT_ESCAPED } from './world.js';
 import { SCREEN_TITLE, SCREEN_PLAY, SCREEN_CAUGHT, SCREEN_ESCAPED } from './render.js';
 
 const START_SECONDS = 0;   // a clean, static title screen: no hazards mid-crossing
-const PLAY_SECONDS = 6;    // mid-run: oven just lit ahead, escape not yet reached
+const PLAY_SECONDS = 6;    // mid-run: escape not yet reached
 const END_LIMIT_SECONDS = 90;
 const SAMPLE = 1 / 30;
 const NULL_INPUT = { direction: () => 0, jumping: () => false, takeActions: () => 0 };
+
+/** World pixels the staged turkey must keep clear of any active hazard. */
+const CLEAR_PX = 280;
+/** The staged play frame must be at least this far into the run (mid-run, not the start line). */
+const CLEAR_MIN_DISTANCE = 1500;
+
+/** True when no active oven or knife is within CLEAR_PX world pixels of the turkey. */
+function hazardsClear(state) {
+  const player = state.player;
+  if (state.oven.active && Math.abs(state.oven.x - player.x) < CLEAR_PX) return false;
+  for (let index = 0; index < state.knives.length; index += 1) {
+    const item = state.knives[index];
+    if (item.active && Math.abs(item.x - player.x) < CLEAR_PX) return false;
+  }
+  return true;
+}
 
 /** Seconds until moving in `direction` (-1, 0, 1) runs the turkey into a knife; Infinity when it never does. */
 function timeToHit(state, direction, horizon) {
@@ -81,6 +97,10 @@ export function stageShot(name, world) {
   for (let index = 0; index < limit / STEP; index += 1) {
     const events = world.step(STEP, autopilot(world.state), false);
     if (events & (EVENT_OVER | EVENT_ESCAPED)) break;
+    // Stage the play frame on open ground: keep the real rules running until the
+    // turkey is mid-run, fully recovered, and no oven or knife is nearby, then
+    // capture that frame.
+    if (name === 'play' && world.state.distance >= CLEAR_MIN_DISTANCE && world.state.player.invulnerable === 0 && hazardsClear(world.state)) break;
   }
   if (world.state.escaped) return { screen: SCREEN_ESCAPED, best: world.state.distance };
   if (world.state.caught) return { screen: SCREEN_CAUGHT, best: world.state.distance };
